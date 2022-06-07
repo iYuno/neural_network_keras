@@ -1,7 +1,10 @@
-from tkinter import *
+import tkinter
+import tkinter as tk
+from tkinter.ttk import *
 from tkinter import filedialog
 
 import numpy as np
+
 import tensorflow as tf
 from keras_preprocessing.image import img_to_array
 from keras_preprocessing.image import load_img
@@ -15,10 +18,12 @@ class_names = ['Adposhel', 'Agent', 'Allaple', 'Amonetize', 'Androm',
                'VBA', 'VBKrypt', 'Vilsel']
 
 
+
 def printScore(predictions):
-    for k in range(26):
-        txt_arr[k].delete(0, END)
-        txt_arr[k].insert(0, predictions[k])
+    for k in range(len(class_names)):
+        # txt_arr[k].delete(0, tk.END)
+        # txt_arr[k].insert(0, predictions[k])
+        txt_arr[k].config(value=predictions[k])
 
 
 def open():
@@ -40,30 +45,35 @@ def open():
 
 reconstructed_model = keras.models.load_model('trained')
 
-window = Tk()
+window = tkinter.Tk()
 window.title("NN")
 window.config(bg="white")
 
 count = 0
 
-txt_arr = [Entry, Entry, Entry, Entry, Entry,
-           Entry, Entry, Entry, Entry, Entry,
-           Entry, Entry, Entry, Entry, Entry,
-           Entry, Entry, Entry, Entry, Entry,
-           Entry, Entry, Entry, Entry, Entry,
-           Entry]
+txt_arr = [tk.Entry, tk.Entry, tk.Entry, tk.Entry, tk.Entry,
+           tk.Entry, tk.Entry, tk.Entry, tk.Entry, tk.Entry,
+           tk.Entry, tk.Entry, tk.Entry, tk.Entry, tk.Entry,
+           tk.Entry, tk.Entry, tk.Entry, tk.Entry, tk.Entry,
+           tk.Entry, tk.Entry, tk.Entry, tk.Entry, tk.Entry,
+           tk.Entry]
 
 for i in range(9):
     for j in range(3):
         if i == 8 and j == 2:
-            btn = Button(window, text="Проверить", command=open, font=("Roboto", 14), relief=GROOVE, borderwidth=1,
-                         bg="white", fg="black", )
+            btn = tk.Button(window, text="Проверить", command=open, font=("Roboto", 14), relief=tk.GROOVE,
+                            borderwidth=1,
+                            bg="white", fg="black", )
             btn.grid(row=i, column=j * 2)
             continue
-        Label(window, text=class_names[count], font=("Roboto", 14), width=10, bg="white").grid(row=i, column=j * 2)
-        txt_arr[count] = Entry(window, width=10, font=("Roboto", 14), relief=FLAT, borderwidth=1, bg="white",
-                               fg="black")
-        txt_arr[count].grid(row=i, column=j * 2 + 1, padx=5, pady=5)
+        tk.Label(window, text=class_names[count], font=("Roboto", 14), width=10, bg="white").grid(row=i, column=j * 2)
+        txt_arr[count] = Progressbar(window, orient="horizontal", length=100, mode="determinate")
+        txt_arr[count].grid(row=i, column=j * 2 + 1, pady=5, padx=5)
+
+        # txt_arr[count] = tk.Entry(window, width=10, font=("Roboto", 14), relief=FLAT, borderwidth=1, bg="white",
+        #                        fg="black")
+        # txt_arr[count].grid(row=i, column=j * 2 + 1, padx=5, pady=5)
+
         count += 1
 
 window.mainloop()
